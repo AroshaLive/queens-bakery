@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+  <title>Queen's Bakery · A Taste of Paradise</title>
+  <!-- Google Font: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free) for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ----- RESET & BASE ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fefcf7;
+      color: #2d2a2a;
+      transition: background 0.3s, color 0.3s;
+      line-height: 1.6;
+    }
+
+    /* dark mode base */
+    body.dark {
+      background: #1e1b1b;
+      color: #f0ece6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ----- LOADING SCREEN ----- */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: #faf5f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 1.2s ease;
+      text-align: center;
+    }
+    body.dark #loading-screen {
+      background: #1e1b1b;
+    }
+    #loading-screen .logo-placeholder {
+      width: 90px;
+      height: 90px;
+      background: #d9c6b0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #4a2c2c;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+    }
+    #loading-screen h1 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: #6b3f3f;
+      letter-spacing: 1px;
+    }
+    #loading-screen .tagline {
+      font-size: 1.1rem;
+      color: #b17a6b;
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+    .fade-out {
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+
+    /* ----- NAVIGATION ----- */
+    nav {
+      background: rgba(255, 252, 248, 0.85);
+      backdrop-filter: blur(4px);
+      padding: 0.8rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #ede6de;
+      transition: background 0.3s;
+    }
+    body.dark nav {
+      background: rgba(30, 27, 27, 0.9);
+      border-bottom: 1px solid #3e3535;
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .logo-placeholder {
+      width: 44px;
+      height: 44px;
+      background: #d9c6b0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #4a2c2c;
+      font-size: 1rem;
+    }
+    .logo-text {
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: #6b3f3f;
+    }
+    body.dark .logo-text {
+      color: #e8d5c4;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.4rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      font-weight: 400;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+      color: #4d3e3e;
+    }
+    body.dark .nav-links a {
+      color: #d6ccc4;
+    }
+    .nav-links a:hover {
+      color: #b47b6b;
+    }
+    .dark-toggle {
+      background: none;
+      border: 1px solid #cbb8ab;
+      border-radius: 30px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: #f3ede8;
+      color: #3d2d2d;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    body.dark .dark-toggle {
+      background: #352e2e;
+      border-color: #6d5a5a;
+      color: #f0e3db;
+    }
+
+    /* ----- HERO ----- */
+    .hero {
+      padding: 2.5rem 0 3.5rem;
+      position: relative;
+      background: linear-gradient(145deg, #faf3ed 0%, #f5ebe4 100%);
+      border-radius: 0 0 40px 40px;
+      margin-bottom: 2rem;
+    }
+    body.dark .hero {
+      background: #262121;
+    }
+    .hero-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem;
+    }
+    .hero-content {
+      flex: 1 1 300px;
+    }
+    .hero-content h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #5d3737;
+      line-height: 1.2;
+    }
+    body.dark .hero-content h1 {
+      color: #f0ddd0;
+    }
+    .hero-content h1 span {
+      color: #b87a68;
+    }
+    .hero-content .tagline {
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: #a57a6b;
+      letter-spacing: 3px;
+      margin: 0.2rem 0 0.8rem;
+    }
+    .hero-content p {
+      max-width: 480px;
+      margin: 1.2rem 0 1.8rem;
+      color: #4d3f3f;
+    }
+    body.dark .hero-content p {
+      color: #cfc3bb;
+    }
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: 0.25s;
+      background: #c9b0a0;
+      color: #2d1f1f;
+    }
+    .btn-primary {
+      background: #b47b6b;
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(180, 123, 107, 0.25);
+    }
+    .btn-primary:hover {
+      background: #9f6a5b;
+      transform: translateY(-3px);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid #b47b6b;
+      color: #5d3737;
+    }
+    body.dark .btn-outline {
+      color: #e6d5c9;
+      border-color: #c9ad9d;
+    }
+    .btn-outline:hover {
+      background: #b47b6b20;
+    }
+    .hero-image {
+      flex: 1 1 280px;
+      background: #e3d6cb;
+      height: 220px;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #7a6155;
+      font-weight: 300;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><rect width="100" height="100" fill="%23dccfc4"/><text x="12" y="58" font-family="Poppins" font-size="14" fill="%236b4f42">🍰 bakery</text></svg>');
+      background-size: cover;
+    }
+
+    /* floating decoration */
+    .floating-deco {
+      position: absolute;
+      font-size: 2.5rem;
+      opacity: 0.2;
+      pointer-events: none;
+    }
+    .deco1 { top: 10%; right: 5%; }
+    .deco2 { bottom: 15%; left: 3%; }
+
+    /* ----- SECTION TITLES ----- */
+    .section-title {
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 2.8rem 0 1.8rem;
+      color: #4d3535;
+      position: relative;
+      display: inline-block;
+    }
+    body.dark .section-title {
+      color: #eddccc;
+    }
+    .section-title:after {
+      content: '';
+      display: block;
+      width: 50%;
+      height: 3px;
+      background: #b47b6b;
+      margin-top: 6px;
+    }
+
+    /* ----- PRODUCT CARDS (grid) ----- */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 1.8rem;
+      margin: 1.5rem 0;
+    }
+    .product-card {
+      background: #ffffffcc;
+      backdrop-filter: blur(2px);
+      padding: 1.2rem 1rem 1.5rem;
+      border-radius: 28px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.03);
+      transition: 0.3s;
+      border: 1px solid #f2e8e0;
+      text-align: center;
+    }
+    body.dark .product-card {
+      background: #2b2626;
+      border-color: #453b3b;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.05);
+    }
+    .product-card .img-placeholder {
+      background: #e9ddd4;
+      height: 120px;
+      border-radius: 30px;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #7a6155;
+      font-size: 0.8rem;
+    }
+    body.dark .product-card .img-placeholder {
+      background: #3f3535;
+      color: #b6a69b;
+    }
+    .product-card h3 {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .product-card .price {
+      color: #b47b6b;
+      font-weight: 500;
+      margin: 0.3rem 0;
+    }
+    .btn-wa {
+      background: #25D366;
+      color: #fff;
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      border: none;
+      font-weight: 500;
+      font-size: 0.8rem;
+      transition: 0.2s;
+      display: inline-block;
+      margin-top: 0.3rem;
+    }
+    .btn-wa:hover {
+      background: #1ebe5c;
+      transform: scale(0.97);
+    }
+
+    /* why choose */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .why-card {
+      background: #f7f0ea;
+      padding: 1.2rem 0.8rem;
+      border-radius: 30px;
+      text-align: center;
+      transition: 0.2s;
+    }
+    body.dark .why-card {
+      background: #2f2828;
+    }
+    .why-card i {
+      font-size: 2rem;
+      color: #b47b6b;
+      margin-bottom: 0.4rem;
+    }
+
+    /* offers */
+    .offer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px,1fr));
+      gap: 1.5rem;
+    }
+    .offer-card {
+      background: #fcf5ef;
+      border-radius: 30px;
+      padding: 1.2rem;
+      border-left: 6px solid #b47b6b;
+      position: relative;
+    }
+    body.dark .offer-card {
+      background: #2d2626;
+    }
+    .offer-badge {
+      background: #b47b6b;
+      color: #fff;
+      padding: 0.1rem 1rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      display: inline-block;
+      margin-bottom: 0.4rem;
+    }
+
+    /* reviews */
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+      gap: 1.8rem;
+    }
+    .review-card {
+      background: #faf3ee;
+      padding: 1.2rem;
+      border-radius: 32px;
+    }
+    body.dark .review-card {
+      background: #2c2525;
+    }
+    .stars {
+      color: #e6b25c;
+      letter-spacing: 2px;
+    }
+
+    /* owner gallery */
+    .owner-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin: 1rem 0;
+    }
+    .owner-gallery .img-placeholder {
+      width: 90px;
+      height: 90px;
+      background: #dccfc4;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b4f42;
+      font-size: 0.6rem;
+    }
+    body.dark .owner-gallery .img-placeholder {
+      background: #443a3a;
+    }
+
+    /* footer */
+    footer {
+      background: #efe6df;
+      padding: 2.5rem 0 1.5rem;
+      margin-top: 3rem;
+      border-radius: 50px 50px 0 0;
+    }
+    body.dark footer {
+      background: #221e1e;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+      gap: 2rem;
+    }
+    .social-icons a {
+      font-size: 1.3rem;
+      margin-right: 0.8rem;
+      color: #5d4a3d;
+    }
+    body.dark .social-icons a {
+      color: #cfbdb2;
+    }
+
+    /* responsive */
+    @media (max-width: 720px) {
+      .nav-links { gap: 0.8rem; }
+      .hero-content h1 { font-size: 2rem; }
+    }
+    @media (max-width: 480px) {
+      .logo-text { font-size: 1rem; }
+      .nav-links a { font-size: 0.8rem; }
+    }
+
+    /* utility */
+    .mb-1 { margin-bottom: 1rem; }
+    .mt-2 { margin-top: 2rem; }
+    .text-center { text-align: center; }
+    .flex-wrap { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+  </style>
+</head>
+<body>
+  <!-- LOADING SCREEN -->
+  <div id="loading-screen">
+    <div class="logo-placeholder">QB</div>
+    <h1>Queen's Bakery</h1>
+    <div class="tagline">A Taste of Paradise</div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="container nav-container">
+      <div class="logo-area">
+        <div class="logo-placeholder">QB</div>
+        <span class="logo-text">Queen's Bakery</span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="#products">Products</a>
+        <a href="#about">About</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#delivery">Delivery</a>
+        <a href="#contact">Contact</a>
+        <button class="dark-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <h1>Queen's <span>Bakery</span></h1>
+        <div class="tagline">A Taste of Paradise</div>
+        <p>Freshly baked cakes, delicious short eats, and sweet treats made with love and delivered to your doorstep.</p>
+        <div class="hero-buttons">
+          <a href="#products" class="btn btn-primary">Explore Products</a>
+          <a href="https://wa.me/94770000000?text=Hello%20Queen's%20Bakery!" class="btn btn-outline">Order Now</a>
+        </div>
+      </div>
+      <div class="hero-image">🍰 hero image</div>
+    </div>
+    <span class="floating-deco deco1">🧁</span>
+    <span class="floating-deco deco2">🎂</span>
+  </section>
+
+  <!-- FEATURED PRODUCTS -->
+  <div class="container" id="products">
+    <h2 class="section-title">✨ Featured Products</h2>
+    <div class="product-grid">
+      <div class="product-card"><div class="img-placeholder">🍰 cake</div><h3>Cakes</h3><p>Freshly baked for every celebration.</p><div class="price">from LKR 2500</div><a href="https://wa.me/94770000000" class="btn-wa"><i class="fab fa-whatsapp"></i> Order</a></div>
+      <div class="product-card"><div class="img-placeholder">🎂 birthday</div><h3>Birthday Cakes</h3><p>Beautiful custom cakes.</p><div class="price">from LKR 4500</div><a href="https://wa.me/94770000000" class="btn-wa"><i class="fab fa-whatsapp"></i> Order</a></div>
+      <div class="product-card"><div class="img-placeholder">🧆 short eats</div><h3>Short Eats Packages</h3><p>Perfect for parties.</p><div class="price">from LKR 3000</div><a href="https://wa.me/94770000000" class="btn-wa"><i class="fab fa-whatsapp"></i> Order</a></div>
+      <div class="product-card"><div class="img-placeholder">🧁 cupcake</div><h3>Cupcakes</h3><p>Sweet &amp; pretty.</p><div class="price">LKR 250 each</div><a href="https://wa.me/94770000000" class="btn-wa"><i class="fab fa-whatsapp"></i> Order</a></div>
+      <div class="product-card"><div class="img-placeholder">🍩 doughnut</div><h3>Doughnuts</h3><p>Soft &amp; glazed.</p><div class="price">LKR 180 each</div><a href="https://wa.me/94770000000" class="btn-wa"><i class="fab fa-whatsapp"></i> Order</a></div>
+    </div>
+  </div>
+
+  <!-- WHY CHOOSE US -->
+  <div class="container"><h2 class="section-title">❤️ Why Choose Us</h2>
+    <div class="why-grid">
+      <div class="why-card"><i class="fas fa-heart"></i><h4>Made with Love</h4></div>
+      <div class="why-card"><i class="fas fa-seedling"></i><h4>Fresh Ingredients</h4></div>
+      <div class="why-card"><i class="fas fa-paint-brush"></i><h4>Custom Creations</h4></div>
+      <div class="why-card"><i class="fas fa-truck"></i><h4>Home Delivery</h4></div>
+      <div class="why-card"><i class="fas fa-hand-sparkles"></i><h4>Quality &amp; Hygiene</h4></div>
+    </div>
+  </div>
+
+  <!-- SPECIAL OFFERS -->
+  <div class="container"><h2 class="section-title">🎁 Special Offers</h2>
+    <div class="offer-grid">
+      <div class="offer-card"><span class="offer-badge">Weekend</span><h4>Weekend Special</h4><p>Buy 1 get 1 free on cupcakes</p><a href="https://wa.me/94770000000" class="btn-wa">Order</a></div>
+      <div class="offer-card"><span class="offer-badge">Celebration</span><h4>Celebration Package</h4><p>Cake + short eats combo</p><a href="https://wa.me/94770000000" class="btn-wa">Order</a></div>
+      <div class="offer-card"><span class="offer-badge">Seasonal</span><h4>Seasonal Offers</h4><p>Easter / Ramadan specials</p><a href="https://wa.me/94770000000" class="btn-wa">Order</a></div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div class="container"><h2 class="section-title">⭐ Customer Reviews</h2>
+    <div class="review-grid">
+      <div class="review-card"><div class="stars">★★★★★</div><p>"Absolutely divine cakes!"</p><h5>— Nadia</h5></div>
+      <div class="review-card"><div class="stars">★★★★★</div><p>"Best short eats in Negombo."</p><h5>— Ashan</h5></div>
+      <div class="review-card"><div class="stars">★★★★☆</div><p>"Beautiful birthday cake."</p><h5>— Tharushi</h5></div>
+    </div>
+  </div>
+
+  <!-- OWNER PHOTO SECTION -->
+  <div class="container"><h2 class="section-title">👩‍🍳 Behind the Scenes</h2>
+    <div class="owner-gallery">
+      <div class="img-placeholder">🍰 selfie</div>
+      <div class="img-placeholder">🥣 baking</div>
+      <div class="img-placeholder">🎂 decor</div>
+      <div class="img-placeholder">🧁 plating</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-grid">
+      <div><div class="logo-placeholder" style="width:50px;height:50px;">QB</div><p>Queen's Bakery<br><small>A Taste of Paradise</small></p></div>
+      <div><h4>Quick</h4><a href="#">Home</a><br><a href="#">Products</a><br><a href="#">About</a></div>
+      <div><h4>Contact</h4><i class="fab fa-whatsapp"></i> +94 77 000 0000<br><i class="fas fa-phone"></i> +94 31 222 2222</div>
+      <div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-tiktok"></i></a><a href="#"><i class="fab fa-youtube"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div>
+    </div>
+    <div class="container text-center" style="margin-top:1.5rem;font-size:0.8rem;">© 2026 Queen's Bakery · homemade with love</div>
+  </footer>
+
+  <script>
+    // LOADING SCREEN
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loading-screen');
+      setTimeout(() => { loader.classList.add('fade-out'); }, 800);
+    });
+
+    // DARK MODE
+    const toggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    if (localStorage.getItem('darkMode') === 'true') {
+      body.classList.add('dark');
+      toggle.innerHTML = '<i class="fas fa-sun"></i> Light';
+    }
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      const isDark = body.classList.contains('dark');
+      localStorage.setItem('darkMode', isDark);
+      toggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light' : '<i class="fas fa-moon"></i> Dark';
+    });
+  </script>
+  <!-- other pages are linked via navigation, but we keep it all in one file as per instruction (multi-page feel) -->
+  <!-- For complete multi-page structure, this index.html includes all sections. -->
+</body>
+</html>
